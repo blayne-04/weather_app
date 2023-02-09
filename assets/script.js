@@ -11,19 +11,18 @@ document.getElementById("input").addEventListener("keyup", (event) => {
 document.getElementById('submitBtn').addEventListener('click', ()=> {
 //clears the weatherUpdate section so the next city can be displayed
     weatherUpdate.innerHTML = ''
-//sets URL dynamically using cityName value
-    const URL = `http://api.openweathermap.org/data/2.5/weather?q=${cityName.value}&appid=${apiKey}`;
+//sets URL dynamically using cityName value and fetches a response which is turned into an object using json then used as data
+    const URL = `http://api.openweathermap.org/data/2.5/weather?q=${cityName.value}&appid=${apiKey}&units=imperial`;
     fetch(URL)
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
+    .then(daily_response => daily_response.json())
+    .then(daily_data => {
 //prints city name data onto the screen
-        var city = data.name;
+        var city = daily_data.name;
         nameUpdate = document.createElement('h2');
         nameUpdate.textContent = city;
         weatherUpdate.append(nameUpdate);
 //sets var weatherImg to the array inside of the weather object item
-        var weatherImg = data.weather[0];
+        var weatherImg = daily_data.weather[0];
 //stores icon as the icon from the weatherImg array
         var icon = weatherImg.icon;
 // sets the url for the icon to the openweathermap icon page, more info here -> https://openweathermap.org/weather-conditions
@@ -33,18 +32,18 @@ document.getElementById('submitBtn').addEventListener('click', ()=> {
         weatherIcon.src = iconURL;
         weatherUpdate.appendChild(weatherIcon);
 //converts temp to fahrenheit and prints temp data it on screen
-        var temperature = data.main.temp;
-        var fahrenheit = Math.round((temperature - 273.15) * 9/5 + 32);
+        var temperature = daily_data.main.temp;
+        //var fahrenheit = Math.round((temperature - 273.15) * 9/5 + 32);
         tempUpdate = document.createElement('p');
-        tempUpdate.textContent = (`Temperature: ${fahrenheit} °f`);
+        tempUpdate.textContent = (`Temperature: ${temperature} °f`);
         weatherUpdate.append(tempUpdate);
 //prints wind speed data on screen
-        var wind = data.wind.speed;
+        var wind = daily_data.wind.speed;
         windUpdate = document.createElement('p');
         windUpdate.textContent = (`Wind Speed: ${wind} m/s`);
         weatherUpdate.append(windUpdate);
 //prints humidity data on screen
-        var humidity = data.main.humidity;
+        var humidity = daily_data.main.humidity;
         humidityUpdate = document.createElement('p');
         humidityUpdate.textContent = (`Humidity: ${humidity}%`);
         weatherUpdate.append(humidityUpdate);
