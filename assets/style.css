@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+*{
+    font-family: 'Montserrat', sans-serif, serif;
+    font-size: 18px;
+}
+:root{
+    --background: #F6E8EA;
+    --text: #22181C;
+    --buttonBubble: #92DCE5;
+}
+.savedCts button{
+    background-color: var(--buttonBubble);
+    color: var(--text);
+}
+#submitBtn{
+    background-color: var(--buttonBubble);
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/reset.css">
+    <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+    <div class = row>
+        <header class = 'col-12 bg-dark text-light d-flex justify-content-center p-4'>
+            <h1>Weather Dashboard</h1>
+        </header>
+        <div class = 'search d.flex row bg-dark text-light flex-column align-items-center'>
+            <label for = 'input' class = 'col-lg-3'>Search For A City</label>
+            <input type = 'text' id = 'input' class = 'col-lg-3 rounded'>
+            <input type = 'submit' id = 'submitBtn' value = 'Search' class = 'col-lg-1 p-2 '>
+        </div>
+        <div class = 'savedCts d.flex row  bg-dark justify-content-center p-4 gap-4'>
+            <button class = 'cityBtn col-lg-2 p-3 rounded'>Filler City</button>
+            <button class = 'cityBtn col-lg-2 p-3 rounded'>Filler City</button>
+            <button class = 'cityBtn col-lg-2 p-3 rounded'>Filler City</button>
+            <button class = 'cityBtn col-lg-2 p-3 rounded'>Filler City</button>
+        </div>
+        <div class = weather>
+            <h2>Location</h2>
+            <p>Temp</p>
+            <p>Wind</p>
+            <p>Humidity</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src = "assets/script.js"></script>
+</body>
+</html>
