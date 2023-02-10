@@ -16,5 +16,6 @@ https://openweathermap.org/api
 https://htmlcheatsheet.com/js/
 https://www.youtube.com/watch?v=WZNG8UomjSI
 # Live URL
+https://blayne-04.github.io/weather_app/
 # Preview
 ![Demo](./assets/application_demo.png)
