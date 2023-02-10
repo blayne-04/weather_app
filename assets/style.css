@@ -9,6 +9,9 @@
     --buttonBubble: #92DCE5;
     --bubbleHover: #d1f0f4;
 }
+h1{
+    font-size: 40px;
+}
 .savedCts button{
     background-color: var(--buttonBubble);
     color: var(--text);
@@ -60,4 +63,12 @@
 }
 .weather button:hover{
     background-color: var(--bubbleHover);
+}
+.forecast{
+    margin: 20px;
+    border-radius: 30px;
+    padding: 5px;
+}
+.forecast h2{
+    font-size: 30px;
 }
