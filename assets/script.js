@@ -2,20 +2,31 @@ var apiKey = '80b742e43f9cdfa9417bd930ff73b3f7'
 var cityName = document.getElementById('input')
 var weatherUpdate = document.querySelector('.weather')
 var forecastUpdate = document.querySelector('.fcContainer')
+var historyBtns = document.querySelector('.savedCts')
+//displays history
+historyUpdate()
 //lets the user press enter when in the textbox instead of clicking the submit button
 document.getElementById("input").addEventListener("keyup", (event) => {
     if (event.keyCode === 13) {
       document.getElementById("submitBtn").click();
     }
   });
-  var history = JSON.parse(localStorage.getItem('savedCities')) || []
-  console.log(history)
-  
-        var historyBtn = document.createElement('button')
-        historyBtn.textContent = history[0]
-        document.querySelector('.savedCts').append(historyBtn)
-  
-
+    function historyUpdate(){
+var savedCities = JSON.parse(localStorage.getItem('savedCities')) || []
+document.getElementById('submitBtn').addEventListener('click', () => {
+        if (!savedCities.includes(cityName.value)){
+        savedCities.push(cityName.value)
+        localStorage.setItem('savedCities', JSON.stringify(savedCities))
+        }
+})
+for (i = 0; i < savedCities.length; i++){
+    cityButton = document.createElement('button')
+    cityButton.textContent = savedCities[i]
+    cityButton.id = savedCities[i]
+    historyBtns.append(cityButton)
+}
+}
+3
 document.getElementById('submitBtn').addEventListener('click', ()=> {
 //clears the weatherUpdate section so the next city can be displayed
     weatherUpdate.innerHTML = ''
@@ -54,6 +65,8 @@ document.getElementById('submitBtn').addEventListener('click', ()=> {
         humidity = document.createElement('p');
         humidity.textContent = (`Humidity: ${dailyData.main.humidity}%`);
         weatherUpdate.append(humidity);
+//updates history sidebar 
+historyUpdate()
 //sets url using data from the daily fetch
         const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${dailyData.coord.lat}&lon=${dailyData.coord.lon}&appid=${apiKey}&units=imperial`
         fetch(forecastURL)
@@ -96,8 +109,6 @@ document.getElementById('submitBtn').addEventListener('click', ()=> {
                     y++;
                 }
         })
-        history.push(dailyData.name)
-        localStorage.setItem('savedCities', JSON.stringify(history))
     })
 //clears the searchbar for the user to enter another query
     cityName.value = ''
