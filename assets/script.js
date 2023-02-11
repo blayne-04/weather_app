@@ -8,7 +8,14 @@ document.getElementById("input").addEventListener("keyup", (event) => {
       document.getElementById("submitBtn").click();
     }
   });
+  var history = JSON.parse(localStorage.getItem('savedCities')) || []
+  console.log(history)
   
+        var historyBtn = document.createElement('button')
+        historyBtn.textContent = history[0]
+        document.querySelector('.savedCts').append(historyBtn)
+  
+
 document.getElementById('submitBtn').addEventListener('click', ()=> {
 //clears the weatherUpdate section so the next city can be displayed
     weatherUpdate.innerHTML = ''
@@ -18,16 +25,14 @@ document.getElementById('submitBtn').addEventListener('click', ()=> {
     .then(dailyResponse => dailyResponse.json())
     .then(dailyData => {
 //city name -daily
-        var city = dailyData.name;
-        nameUpdate = document.createElement('h2');
-        nameUpdate.textContent = city;
-        weatherUpdate.append(nameUpdate);
-//date -daily
-        var date = new Date(dailyData.dt * 1000).toLocaleString();
-//fixes a bug where pressing submit again would display 'invalid date'
+        city = document.createElement('h2');
+        city.textContent = dailyData.name;
+        weatherUpdate.append(city);
+//date -daily fixes a bug where pressing submit again would display 'invalid date'
+        date = new Date(dailyData.dt * 1000).toLocaleString();
         if(date != 'Invalid Date'){
             dateUpdate = document.createElement('p');
-            dateUpdate.textContent = date
+            dateUpdate.textContent = date;
             weatherUpdate.append(dateUpdate)
         }
 // sets the url for the icon to the openweathermap icon page, uses the icon value, more info here -> https://openweathermap.org/weather-conditions
@@ -38,72 +43,63 @@ document.getElementById('submitBtn').addEventListener('click', ()=> {
         weatherIcon.src = iconURL;
         weatherUpdate.appendChild(weatherIcon);
 //temperature - daily
-        var temperature = Math.round(dailyData.main.temp);
-        tempUpdate = document.createElement('p');
-        tempUpdate.textContent = (`Temperature: ${temperature} °f`);
-        weatherUpdate.append(tempUpdate);
+        temperature = document.createElement('p');
+        temperature.textContent = (`Temperature: ${Math.round(dailyData.main.temp)} °f`);
+        weatherUpdate.append(temperature);
 //wind speed - daily
-        var wind = Math.round(dailyData.wind.speed);
-        windUpdate = document.createElement('p');
-        windUpdate.textContent = (`Wind Speed: ${wind} mph`);
-        weatherUpdate.append(windUpdate);
+        wind = document.createElement('p');
+        wind.textContent = (`Wind Speed: ${Math.round(dailyData.wind.speed)} mph`);
+        weatherUpdate.append(wind);
 //humidity - daily
-        var humidity = dailyData.main.humidity;
-        humidityUpdate = document.createElement('p');
-        humidityUpdate.textContent = (`Humidity: ${humidity}%`);
-        weatherUpdate.append(humidityUpdate);
-//gets lat and lon from dailyData and uses it in the forecast url
-        var longitude = (dailyData.coord.lon)
-        var latitude = (dailyData.coord.lat)
-        const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=imperial`
+        humidity = document.createElement('p');
+        humidity.textContent = (`Humidity: ${dailyData.main.humidity}%`);
+        weatherUpdate.append(humidity);
+//sets url using data from the daily fetch
+        const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${dailyData.coord.lat}&lon=${dailyData.coord.lon}&appid=${apiKey}&units=imperial`
         fetch(forecastURL)
         .then (fcResponse => fcResponse.json())
         .then (fcData => {
 //forecast returns in 3 hr intervals so we iterate through the data in groups of 8, 8*3 = 24hrs
-                var forecast = fcData.list;
                 var y = 0
-                for (var i = 0; i < forecast.length; i+=8){
-                    var days = forecast[i]
+                for (var i = 0; i < fcData.list.length; i+=8){
+                    var days = fcData.list[i]
                     var ids = ['day1', 'day2', 'day3', 'day4', 'day5']
 //grabs id for each day that can be used latter to append to 
                     var dayId = (document.getElementById(ids[y]))
 //clears the forecast data so the next query can display
                     dayId.innerHTML = ''
 //city name -forecast
-                    var fcCity = dailyData.name
-                    var fcNewCity = document.createElement('h2')
-                    fcNewCity.textContent = (fcCity)
-                    dayId.append(fcNewCity)
+                    fcCity = document.createElement('h2');
+                    fcCity.textContent = (dailyData.name);
+                    dayId.append(fcCity);
 //date -forecast
-                    var fcDate = new Date(days.dt * 1000).toLocaleString();
-                    fcDateUpdate = document.createElement('p');
-                    fcDateUpdate.textContent = fcDate
-                    dayId.append(fcDateUpdate)
+                    fcDate = document.createElement('p');
+                    fcDate.textContent = new Date(days.dt * 1000).toLocaleString();
+                    dayId.append(fcDate);
 //icon -forecast
-                    var fcIcon = days.weather[0].icon
-                    var fcIconURL = `https://openweathermap.org/img/wn/${fcIcon}@2x.png`;
-                    var fcNewIcon = document.createElement('img')
-                    fcNewIcon.src = fcIconURL
-                    dayId.append(fcNewIcon)
+                    fcIconURL = `https://openweathermap.org/img/wn/${days.weather[0].icon}@2x.png`;
+                    fcIcon = document.createElement('img');
+                    fcIcon.src = fcIconURL;
+                    dayId.append(fcIcon);
 //temperature -forecast
-                    var fcTemp = Math.round(days.main.temp)
-                    var fcNewTemp = document.createElement('p')
-                    fcNewTemp.textContent = `Temperature: ${fcTemp} °f`
-                    dayId.append(fcNewTemp)
+                    fcTemp = document.createElement('p');
+                    fcTemp.textContent = `Temperature: ${days.main.temp} °f`;
+                    dayId.append(fcTemp);
 //wind speed -forecast
-                    var fcWind = Math.round(days.wind.speed)
-                    var fcNewWind = document.createElement('p')
-                    fcNewWind.textContent = (`Wind Speed: ${fcWind} mph`)
-                    dayId.append(fcNewWind)
+                    fcWind = document.createElement('p');
+                    fcWind.textContent = (`Wind Speed: ${days.wind.speed} mph`);
+                    dayId.append(fcWind);
 //humidity -forecast
-                    var fcHumidity = days.main.humidity
-                    var fcNewHumidity = document.createElement('p')
-                    fcNewHumidity.textContent = `Humidity: ${fcHumidity}%`
-                    dayId.append(fcNewHumidity)
-                    y++
+                    fcHumidity = document.createElement('p');
+                    fcHumidity.textContent = `Humidity: ${days.main.humidity}%`;
+                    dayId.append(fcHumidity);
+                    y++;
                 }
         })
+        history.push(dailyData.name)
+        localStorage.setItem('savedCities', JSON.stringify(history))
     })
 //clears the searchbar for the user to enter another query
     cityName.value = ''
 })
+
