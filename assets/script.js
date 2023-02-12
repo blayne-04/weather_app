@@ -26,7 +26,12 @@ for (i = 0; i < savedCities.length; i++){
     historyBtns.append(cityButton)
 }
 }
-3
+
+document.querySelector('.savedCts').addEventListener('click', () => {
+        cityName.value = (event.target.id)
+        document.getElementById('submitBtn').click();
+})
+
 document.getElementById('submitBtn').addEventListener('click', ()=> {
 //clears the weatherUpdate section so the next city can be displayed
     weatherUpdate.innerHTML = ''
