@@ -13,18 +13,18 @@ document.getElementById("input").addEventListener("keyup", (event) => {
   });
     function historyUpdate(){
 var savedCities = JSON.parse(localStorage.getItem('savedCities')) || []
-document.getElementById('submitBtn').addEventListener('click', () => {
         if (!savedCities.includes(cityName.value)){
-        savedCities.push(cityName.value)
-        localStorage.setItem('savedCities', JSON.stringify(savedCities))
+                savedCities.push(cityName.value)
+                localStorage.setItem('savedCities', JSON.stringify(savedCities))
         }
-})
-for (i = 0; i < savedCities.length; i++){
-    cityButton = document.createElement('button')
-    cityButton.textContent = savedCities[i]
-    cityButton.id = savedCities[i]
-    historyBtns.append(cityButton)
-}
+        cityName.value = ''
+        historyBtns.innerHTML = ''
+        for (i = 0; i < savedCities.length; i++){
+                cityButton = document.createElement('button')
+                cityButton.textContent = savedCities[i]
+                cityButton.id = savedCities[i]
+                historyBtns.append(cityButton)
+        }
 }
 
 document.querySelector('.savedCts').addEventListener('click', () => {
@@ -70,7 +70,7 @@ document.getElementById('submitBtn').addEventListener('click', ()=> {
         humidity = document.createElement('p');
         humidity.textContent = (`Humidity: ${dailyData.main.humidity}%`);
         weatherUpdate.append(humidity);
-//updates history sidebar 
+//updates history sidebar/adds name to local storage
 historyUpdate()
 //sets url using data from the daily fetch
         const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${dailyData.coord.lat}&lon=${dailyData.coord.lon}&appid=${apiKey}&units=imperial`
@@ -116,6 +116,4 @@ historyUpdate()
         })
     })
 //clears the searchbar for the user to enter another query
-    cityName.value = ''
 })
-
