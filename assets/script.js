@@ -20,10 +20,12 @@ var savedCities = JSON.parse(localStorage.getItem('savedCities')) || []
         cityName.value = ''
         historyBtns.innerHTML = ''
         for (i = 0; i < savedCities.length; i++){
-                cityButton = document.createElement('button')
-                cityButton.textContent = savedCities[i]
-                cityButton.id = savedCities[i]
-                historyBtns.append(cityButton)
+                if(savedCities[i] !== ''){
+                        cityButton = document.createElement('button')
+                        cityButton.textContent = savedCities[i]
+                        cityButton.id = savedCities[i]
+                        historyBtns.append(cityButton)
+                }
         }
 }
 
