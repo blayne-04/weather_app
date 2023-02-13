@@ -30,11 +30,15 @@ var savedCities = JSON.parse(localStorage.getItem('savedCities')) || []
 }
 
 document.querySelector('.savedCts').addEventListener('click', () => {
-        cityName.value = (event.target.id)
-        document.getElementById('submitBtn').click();
+        if (event.target.id !== 'emptyCheck'){
+                cityName.value = (event.target.id)
+                console.log(event.target)
+                document.getElementById('submitBtn').click();
+        }
 })
 
 document.getElementById('submitBtn').addEventListener('click', ()=> {
+        if (cityName.value !== ''){
 //clears the weatherUpdate section so the next city can be displayed
     weatherUpdate.innerHTML = ''
 //sets URL using cityName value, turns into an object
@@ -117,5 +121,5 @@ historyUpdate()
                 }
         })
     })
-//clears the searchbar for the user to enter another query
+        }
 })
